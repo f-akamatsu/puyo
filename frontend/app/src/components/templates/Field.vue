@@ -29,11 +29,10 @@
 
 <script setup lang="ts">
 import { computed, defineExpose, onBeforeUpdate } from "vue";
-import { Coord } from "@/common/Coord";
+import { Coord } from "@/class/Coord";
 import FieldGridCell from "@/components/parts/FieldGridCell.vue";
 import Puyo from "@/components/parts/Puyo.vue";
-import { ChainInfo } from "@/common/ChainInfo";
-import { FieldPuyoList } from "@/common/FieldPuyoList";
+import { FieldPuyoList } from "@/class/FieldPuyoList";
 
 interface PuyoDom {
   coord: Coord;
@@ -95,37 +94,9 @@ const setPuyoDomList = (el: any, coord: Coord) => {
  * 連鎖開始
  */
 const startChain = (): FieldPuyoList => {
-  const fieldPuyoList: FieldPuyoList = props.fieldPuyoList;
-
-  let chainInfo;
-  let chainNum = 0;
-  do {
-    // 1. 浮いているぷよを落とす
-    drop(fieldPuyoList);
-
-    // 2. 連鎖
-    chainInfo = chain(fieldPuyoList, ++chainNum);
-
-    // 3. 1つ以上消していたら繰り返す
-  } while (chainInfo.erase > 0);
-
-  return fieldPuyoList;
-};
-
-const drop = (fieldPuyoList: FieldPuyoList): void => {
-  // ロジック
-  fieldPuyoList.drop();
-
-  // アニメーション TODO
-};
-
-const chain = (fieldPuyoList: FieldPuyoList, chainNum: number): ChainInfo => {
-  // ロジック
-  const chainInfo = fieldPuyoList.chain(chainNum);
-
-  // アニメーション TODO
-
-  return chainInfo;
+  const [chainInfoList, allChainAnime] = props.fieldPuyoList.startChain();
+  console.log(chainInfoList);
+  return props.fieldPuyoList;
 };
 
 defineExpose({ startChain });

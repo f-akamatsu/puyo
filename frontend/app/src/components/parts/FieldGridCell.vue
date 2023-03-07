@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { computed, withDefaults } from "vue";
-import { Coord } from "@/common/Coord";
+import { Coord } from "@/class/Coord";
 
 const props = withDefaults(defineProps<{
   coord: Coord;

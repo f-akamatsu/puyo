@@ -2,17 +2,21 @@
  * 連結数を参照渡しにしたいため。。
  */
 export class Connect {
-  size: number;
+  private _size: number;
 
   constructor() {
-    this.size = 1;
+    this._size = 1;
   }
 
   increment(): void {
-    this.size++;
+    this._size++;
   }
 
   isErasable(): boolean {
-    return this.size >= 4;
+    return this._size >= 4;
+  }
+
+  get size(): number {
+    return this._size;
   }
 }

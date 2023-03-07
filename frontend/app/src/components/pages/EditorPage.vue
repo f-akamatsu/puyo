@@ -22,9 +22,9 @@ import { ref, reactive } from "vue";
 import Button from "@/components/parts/Button.vue"
 import Field from "@/components/templates/Field.vue"
 import SelectPuyoTable from "@/components/templates/SelectPuyoTable.vue";
-import { Coord } from "@/common/Coord";
-import { FieldPuyo } from "@/common/FieldPuyo";
-import { FieldPuyoList } from "@/common/FieldPuyoList";
+import { Coord } from "@/class/Coord";
+import { FieldPuyo } from "@/class/FieldPuyo";
+import { FieldPuyoList } from "@/class/FieldPuyoList";
 
 const fieldPuyoList = reactive(new FieldPuyoList());
 const selectedColor = ref("1");
