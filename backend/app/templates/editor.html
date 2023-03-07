@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Editor</title>
+	<link rel="stylesheet" href="static/css/main.css" />
+</head>
+<body>
+	<div class="wrapper">
+		<div class="container">
+			<canvas id="field" class="field"></canvas>
+		</div>
+
+		<div class="container operation-container">
+			<div>
+				<canvas id="choose"></canvas>
+			</div>
+			<div class="font-0">
+				<a id="undo" class="button button-m-size"><img src="static/images/icon/undo.svg"><span>元に戻す</span></a>
+				<a id="redo" class="button button-m-size"><img src="static/images/icon/redo.svg"><span>やり直す</span></a>
+			</div>
+			<div class="font-0">
+				<a id="clear" class="button button-m-size"><img src="static/images/icon/clear.svg"><span>クリア</span></a>
+			</div>
+			<hr>
+			<div class="font-0">
+				<a id="openImageForm" class="button button-l-size"><img src="static/images/icon/picture.svg"><span>画像読み込み</span></a>
+			</div>
+			<hr>
+			<div>
+				<a id="start" class="button button-m-size"><img src="static/images/icon/start.svg"><span>連鎖実行</span></a>
+			</div>
+			<div>
+	<label class="radio"><input type="radio" name="mode" id="step" value="0" checked><span class="outside"><span class="inside"></span></span><label for="step">パラパラ再生</label></label>
+	<label class="radio"><input type="radio" name="mode" id="animation" value="1"><span class="outside"><span class="inside"></span></span><label for="animation">アニメーション再生</label></label>
+	<label class="range"><img src="static/images/icon/turtle.svg"><input type="range" id="speed" min="1" max="5" value="3"><img src="static/images/icon/rabbit.svg"></label>
+</div>
+		</div>
+
+		<div class="container">
+			<div id="chainInfoWrapper">
+	<table id="chainInfoTable">
+		<thead>
+			<tr>
+				<th class="chain">連鎖</th>
+				<th class="score">得点</th>
+				<th class="erase">消した数</th>
+				<th class="connect">連結</th>
+				<th class="color">色数</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+</div>
+		</div>
+
+		<div class="container">
+			<div class="keyboard-manual">
+				<table>
+					<thead>
+						<tr>
+							<th colspan="2">キーボード</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>G / 1</th>
+							<td>みどりを選択</td>
+						</tr>
+						<tr>
+							<th>R / 2</th>
+							<td>あかを選択</td>
+						</tr>
+						<tr>
+							<th>B / 3</th>
+							<td>あおを選択</td>
+						</tr>
+						<tr>
+							<th>Y / 4</th>
+							<td>きいろを選択</td>
+						</tr>
+						<tr>
+							<th>P / 5</th>
+							<td>むらさきを選択</td>
+						</tr>
+						<tr>
+							<th>J / 9</th>
+							<td>おじゃまを選択</td>
+						</tr>
+						<tr>
+							<th>D / 0</th>
+							<td>けすを選択</td>
+						</tr>
+						<tr>
+							<th>Ctrl + Z</th>
+							<td>元に戻す</td>
+						</tr>
+						<tr>
+							<th>Ctrl + Y</th>
+							<td>やり直す</td>
+						</tr>
+						<tr>
+							<th>SPACE</th>
+							<td>連鎖実行</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="imageFormWrapper" style="display:none;">
+	<div id="imageForm">
+		<canvas id="image"></canvas>
+		<label class="button button-m-size">
+			<input id="imageFile" name="imageFile" type="file" accept="image/jpeg,image/png">
+			<img src="static/images/icon/picture.svg"><span>画像を選択</span>
+		</label>
+		<input type="radio" name="trimmode" id="any" value="0"><label for="any">任意</label>
+		<input type="radio" name="trimmode" id="rect" value="1" checked><label for="rect">矩形</label>
+		<a id="convertImage" class="button button-m-size"><img src="static/images/icon/upload.svg"><span>送信</span></a>
+		<a id="closeImageForm" class="button button-m-size"><img src="static/images/icon/close.svg"><span>閉じる</span></a>
+	</div>
+</div>
+	<div id="loadingWrapper" style="display:none;">
+	<div id="spin"></div>
+	<p id="loadMsg"></p>
+</div>
+
+	<script type="text/javascript" src="static/js/editor_bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./frontend/app:/usr/src/app
+      - front_node_modules:/usr/src/app/node_modules
+    depends_on:
+      - backend
+    tty: true
+    stdin_open: true
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend/app:/usr/src/app
+    command: flask run --host=0.0.0.0
+
+volumes:
+  front_node_modules:
