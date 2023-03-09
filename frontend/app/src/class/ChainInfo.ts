@@ -22,13 +22,13 @@ export class ChainInfo {
     this._score = this.calcScore(chain, erase, color, connect);
   }
 
-  calcScore(chain: number, erase: number, color: number, connect: number[]): number {
+  private calcScore(chain: number, erase: number, color: number, connect: number[]): number {
     const bonus = erase > 0 ? this.calcBonus(chain, color, connect) : 0;
     const score = erase * bonus * 10;
     return score;
   }
 
-  calcBonus(chain: number, color: number, connect: number[]): number {
+  private calcBonus(chain: number, color: number, connect: number[]): number {
     // 連鎖
     const chainBonus = ChainInfo.CHAIN[chain - 1];
 

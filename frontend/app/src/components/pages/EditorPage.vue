@@ -33,7 +33,6 @@ const $field = ref();
 
 const onClickDropButton = (): void => {
   const newFieldPuyoList: FieldPuyo[] = $field.value.startChain();
-  // fieldPuyoList.value = newFieldPuyoList;
 };
 
 const onClickFieldCell = (coord: Coord): void => {

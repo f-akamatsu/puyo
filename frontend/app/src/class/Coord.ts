@@ -1,3 +1,6 @@
+/**
+ * 座標クラス。ValueObject意識。
+ */
 export class Coord {
   private _x: number;
   private _y: number;
@@ -14,23 +17,16 @@ export class Coord {
     this._y = y;
   }
 
-  isSameCoord(coord: Coord): boolean {
+  equals(coord: Coord): boolean {
     return this._x === coord._x && this._y === coord._y;
   }
 
-  clone(): Coord {
-    return new Coord(this._x, this._y);
-  }
-
   add(coord: Coord): Coord {
-    this._x += coord._x;
-    this._y += coord._y;
-    return this;
+    return new Coord(this._x + coord.x, this._y + coord.y);
   }
 
   addY(n: number): Coord {
-    this._y += n;
-    return this;
+    return new Coord(this._x, this._y + n);
   }
 
   get x(): number {

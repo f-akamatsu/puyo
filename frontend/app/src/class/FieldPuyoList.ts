@@ -2,8 +2,8 @@ import { Coord } from "@/class/Coord";
 import { FieldPuyo } from "@/class/FieldPuyo";
 import { Connect } from "@/class/Connect";
 import { ChainInfo } from "@/class/ChainInfo";
+import { ChainInfoList } from "@/class/ChainInfoList";
 import { AllChainAnime, ChainAnime, DropAnime, DropPuyoAnime, EraseAnime, ErasePuyoAnime } from "@/interface/FieldAnimationInterfaces"
-import { ChainInfoList } from "./ChainInfoList";
 
 export class FieldPuyoList implements Iterable<FieldPuyo> {
 
@@ -91,7 +91,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
     return [new ChainInfoList(chainInfoList), { chainAnimeList }];
   }
 
-  drop(): DropAnime {
+  private drop(): DropAnime {
     const dropPuyoAnimeList: DropPuyoAnime[] =[];
 
     for (let x = 0; x < 6; x++) {
@@ -107,10 +107,10 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
           continue;
         }
   
-        const fromCoord = new Coord(x, y);
+        let fromCoord = new Coord(x, y);
         let fromFieldPuyo: FieldPuyo|undefined;
         do {
-          fromCoord.addY(1);
+          fromCoord = fromCoord.addY(1);
           fromFieldPuyo = this.getFieldPuyo(fromCoord);
         } while(fromCoord.y < 12 && fromFieldPuyo === undefined);
   
@@ -118,9 +118,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
           continue;
         }
   
-        const newFieldPuyo = new FieldPuyo(toCoord, fromFieldPuyo.color);
-        this.setFieldPuyo(newFieldPuyo);
-        this.removeFieldPuyo(fromCoord);
+        fromFieldPuyo.coord = toCoord;
 
         dropPuyoAnimeList.push({ fromCoord, toCoord });
       }
@@ -129,7 +127,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
     return { dropPuyoAnimeList };
   }
 
-  chain(chainNum: number): [ChainInfo, EraseAnime] {
+  private chain(chainNum: number): [ChainInfo, EraseAnime] {
     let eraseAnime: EraseAnime;
 
     this.calcConnect();
@@ -142,7 +140,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
     return [chainInfo, eraseAnime];
   }
 
-  calcScore(chain: number): ChainInfo {
+  private calcScore(chain: number): ChainInfo {
     const connectArray: Connect[] = [];
     const colorArray: string[] = [];
     this._fieldPuyoList.forEach(fieldPuyo => {
@@ -167,7 +165,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
     return new ChainInfo(chain, erase, color, connectSizeArray);
   }
 
-  calcConnect(): void {
+  private calcConnect(): void {
     this.resetConnect();
 
     this._fieldPuyoList.forEach(el => {
@@ -175,7 +173,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
     });
   }
 
-  calcConnectRecursive(fieldPuyo: FieldPuyo, preFieldPuyo?: FieldPuyo): void {
+  private calcConnectRecursive(fieldPuyo: FieldPuyo, preFieldPuyo?: FieldPuyo): void {
     // ゆうれいの場合は終了
     if (fieldPuyo.isGhost()) {
       return;
@@ -209,7 +207,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
 
     // 四方向に再帰
     Coord.UDLF.forEach(coord => {
-      const nextCoord = fieldPuyo.coord.clone().add(coord);
+      const nextCoord = fieldPuyo.coord.add(coord);
       const nextFieldPuyo = this.getFieldPuyo(nextCoord);
       if (nextFieldPuyo !== undefined) {
         this.calcConnectRecursive(nextFieldPuyo, fieldPuyo);
@@ -217,7 +215,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
     });
   }
 
-  erase(): EraseAnime {
+  private erase(): EraseAnime {
     const erasePuyoAnimeList: ErasePuyoAnime[] = [];
 
     this._fieldPuyoList.forEach(fieldPuyo => {
@@ -228,7 +226,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
         
         // 隣のお邪魔を消す
         Coord.UDLF.forEach(coord => {
-          const nextCoord = fieldPuyo.coord.clone().add(coord);
+          const nextCoord = fieldPuyo.coord.add(coord);
           const nextFieldPuyo = this.getFieldPuyo(nextCoord);
           if (nextFieldPuyo !== undefined && nextFieldPuyo.isOjama() && !nextFieldPuyo.isGhost()) { // ゆうれいは不要
             this.removeFieldPuyo(nextCoord);
@@ -244,7 +242,7 @@ export class FieldPuyoList implements Iterable<FieldPuyo> {
   /**
    * 
    */
-  resetConnect(): void {
+  private resetConnect(): void {
     this._fieldPuyoList.forEach(fieldPuyo => {
       fieldPuyo.resetConnect();
     });

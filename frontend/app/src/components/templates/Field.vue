@@ -17,7 +17,7 @@
       <!-- puyo -->
       <template v-for="(fieldPuyo, i) in fieldPuyoList" :key="i">
         <Puyo
-          :ref="(el: any)=>{setPuyoDomList(el, fieldPuyo.coord.clone())}"
+          :ref="(el: any)=>{setPuyoDomList(el, fieldPuyo.coord)}"
           :color="fieldPuyo.color"
           :left="left(fieldPuyo.coord.x)"
           :top="top(fieldPuyo.coord.y)"
